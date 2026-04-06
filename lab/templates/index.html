@@ -2,24 +2,31 @@
 <html lang="uz">
 <head>
     <meta charset="UTF-8">
-    <title>XSS Laboratoriyasi</title>
+    <title>XSS Hacker Lab</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #1a1a1a; color: #00ff00; text-align: center; padding: 50px; }
-        .container { background-color: #262626; padding: 30px; border-radius: 15px; box-shadow: 0 0 20px rgba(0,255,0,0.2); max-width: 600px; margin: auto; }
-        h1 { color: #fff; }
-        .btn { display: inline-block; background: #00ff00; color: #000; padding: 15px 25px; margin: 10px; border-radius: 5px; text-decoration: none; font-weight: bold; transition: 0.3s; }
-        .btn:hover { background: #00cc00; transform: scale(1.05); }
-        p { color: #ccc; }
+        body { background-color: #0a0a0a; color: #00ff00; font-family: monospace; padding: 40px; text-align: center; }
+        h1 { font-size: 40px; text-shadow: 0 0 10px #00ff00; margin-bottom: 10px; }
+        p { color: gray; font-size: 18px; margin-bottom: 50px; }
+        .menu-box { display: flex; flex-direction: column; align-items: center; gap: 20px; }
+        .btn { 
+            display: block; width: 350px; padding: 15px; 
+            background: #111; color: lime; text-decoration: none; 
+            font-size: 20px; border: 2px solid lime; border-radius: 5px; 
+            transition: 0.3s; text-transform: uppercase; font-weight: bold;
+        }
+        .btn:hover { background: lime; color: black; box-shadow: 0 0 20px lime; transform: scale(1.05); }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>XSS Demo Lab</h1>
-        <p>Kiberxavfsizlikni o'rganish uchun amaliy laboratoriya</p>
-        <hr style="border: 0.5px solid #444;">
-        <a href="{% url 'reflected_xss' %}" class="btn">Reflected XSS</a>
-        <a href="{% url 'stored_xss' %}" class="btn">Stored XSS</a>
-        <p style="font-size: 0.8em; margin-top: 20px;">Faqat o'quv maqsadlarida foydalanilsin!</p>
+
+    <h1>KIBERXAVFSIZLIK LABORATORIYASI</h1>
+    <p>Cross-Site Scripting (XSS) zaifliklarini o'rganish va sinash muhiti</p>
+
+    <div class="menu-box">
+        <a href="/lab/reflected/" class="btn">1. Reflected XSS Lab</a>
+        <a href="/lab/stored/" class="btn">2. Stored XSS Lab</a>
+        <a href="/lab/dom/" class="btn">3. DOM-based XSS Lab</a>
     </div>
+
 </body>
 </html>
