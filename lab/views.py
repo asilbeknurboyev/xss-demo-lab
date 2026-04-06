@@ -1,17 +1,18 @@
 from django.shortcuts import render, redirect
-from .models import Comment
+from .models import Izoh
 
-def reflected_xss(request):
-    query = request.GET.get('q', '')
-    return render(request, 'reflected.html', {'query': query})
+def lab_view(request):
+    # 1. Agar foydalanuvchi "Jo'natish" tugmasini bossa (POST so'rov)
+    if request.method == 'POST':
+        kiritilgan_matn = request.POST.get('xabar') # HTML'dagi input nomi 'xabar' bo'lishi kerak
+        if kiritilgan_matn:
+            # Matnni ma'lumotlar bazasiga saqlaymiz (Stored XSS uchun tayyorgarlik)
+            Izoh.objects.create(matn=kiritilgan_matn)
+        return redirect('/lab/') # Ma'lumot saqlangach, sahifani qayta yuklaymiz
 
-def stored_xss(request):
-    if request.method == "POST":
-        content = request.POST.get('content')
-        Comment.objects.create(text=content)
-        return redirect('stored_xss')
-
-    comments = Comment.objects.all().order_by('-created_at')
-    return render(request, 'stored.html', {'comments': comments})
-def index(request):
-    return render(request, 'index.html')
+    # 2. Bazada saqlangan barcha izohlarni o'qib olamiz
+    barcha_izohlar = Izoh.objects.all().order_by('-vaqt')
+    
+    # 3. Ularni HTML sahifaga yuboramiz
+# 3. Ularni HTML sahifaga yuboramiz
+    return render(request, 'stored.html', {'izohlar': barcha_izohlar})

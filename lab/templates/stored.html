@@ -2,39 +2,35 @@
 <html lang="uz">
 <head>
     <meta charset="UTF-8">
-    <title>Stored XSS - Lab</title>
+    <title>Stored XSS Laboratoriyasi</title>
     <style>
-        body { font-family: 'Courier New', Courier, monospace; background-color: #1a1a1a; color: #00ff00; padding: 40px; }
-        .box { background-color: #262626; padding: 25px; border-radius: 10px; border: 1px solid #00ff00; max-width: 800px; margin: auto; }
-        textarea { background: #000; border: 1px solid #00ff00; color: #00ff00; padding: 10px; width: 95%; margin-bottom: 10px; }
-        button { background: #00ff00; color: #000; border: none; padding: 10px 20px; cursor: pointer; font-weight: bold; width: 100%; }
-        .comment-box { background: #111; border: 1px solid #444; padding: 15px; margin-top: 15px; border-radius: 5px; }
-        .back-btn { display: block; margin-top: 20px; color: #fff; text-decoration: none; font-size: 0.9em; }
-        small { color: #888; }
+        body { background-color: #1a1a1a; color: #00ff00; font-family: monospace; padding: 20px; }
+        input[type="text"] { width: 300px; padding: 10px; background: black; color: lime; border: 1px solid lime; }
+        button { padding: 10px 20px; background: lime; color: black; font-weight: bold; cursor: pointer; border: none; }
+        .comment-box { border: 1px solid #333; padding: 10px; margin-top: 10px; background-color: #111; }
     </style>
 </head>
 <body>
-    <div class="box">
-        <h1>Stored XSS Lab</h1>
-        <p>Baza ichiga zararli kod joylashtiring:</p>
+    <h2>Stored XSS (Saqlanuvchi zaiflik) Laboratoriyasi</h2>
+    <p>Bu yerda qoldirilgan izohlar ma'lumotlar bazasida saqlanib qoladi.</p>
 
-        <form method="POST">
-            {% csrf_token %}
-            <textarea name="content" rows="4" placeholder="Izoh qoldiring..."></textarea>
-            <button type="submit">Bazaga saqlash</button>
-        </form>
+    <form method="POST">
+        {% csrf_token %}
+        <input type="text" name="xabar" placeholder="Zararli skript yoki izoh yozing..." required>
+        <button type="submit">Jo'natish</button>
+    </form>
 
-        <hr style="border: 0.5px solid #444; margin: 20px 0;">
-        <h2>Barcha izohlar:</h2>
+    <br><hr style="border-color: #333;"><br>
 
-        {% for comment in comments %}
-            <div class="comment-box">
-                <p>{{ comment.text }}</p>
-                <small>Saqlangan vaqt: {{ comment.created_at }}</small>
-            </div>
-        {% endfor %}
+    <h3>Foydalanuvchilar izohlari:</h3>
+    
+    {% for izoh in izohlar %}
+        <div class="comment-box">
+            {{ izoh.matn|safe }} 
+        </div>
+    {% empty %}
+        <p style="color: gray;">Hali hech qanday izoh yo'q...</p>
+    {% endfor %}
 
-        <a href="{% url 'index' %}" class="back-btn">← Orqaga (Dashboard)</a>
-    </div>
 </body>
 </html>
