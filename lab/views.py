@@ -16,3 +16,5 @@ def lab_view(request):
     # 3. Ularni HTML sahifaga yuboramiz
 # 3. Ularni HTML sahifaga yuboramiz
     return render(request, 'stored.html', {'izohlar': barcha_izohlar})
+def dom_view(request):
+    return render(request, 'dom.html')

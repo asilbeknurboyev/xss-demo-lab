@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <title>DOM XSS Lab</title>
+    <style>
+        body { background-color: #1a1a1a; color: #00ff00; font-family: monospace; padding: 20px; }
+        select, button { padding: 10px; background: black; color: lime; border: 1px solid lime; font-size: 16px; }
+        .container { border: 1px solid #333; padding: 20px; margin-top: 20px; background-color: #111; }
+    </style>
+</head>
+<body>
+    <h2>DOM-based XSS Laboratoriyasi</h2>
+    <p>Bu yerdagi zaiflik faqat brauzerning o'zida (JavaScript'da) yuz beradi. Server aralashmaydi.</p>
+
+    <select id="tilTanlash" onchange="tilniOzgartir()">
+        <option value="">Tilni tanlang...</option>
+        <option value="O'zbek">O'zbekcha</option>
+        <option value="English">English</option>
+        <option value="Hacker">Hacker tili</option>
+    </select>
+
+    <div class="container" id="natija">
+        Hozircha til tanlanmagan.
+    </div>
+
+    <script>
+        // 1. Foydalanuvchi tilni tanlaganda, uni URL manziliga (hash '#' orqali) qo'shamiz
+        function tilniOzgartir() {
+            let tanlov = document.getElementById("tilTanlash").value;
+            if(tanlov) {
+                window.location.hash = tanlov; 
+            }
+        }
+
+        // 2. Sahifa yuklanganda yoki URL dagi '#' o'zgarganda ishlaydigan kod (ZAIFLIK SHU YERDA!)
+        window.onhashchange = window.onload = function() {
+            // URL dan '#' dan keyingi qismni o'qib olamiz (Bu "Source" deb ataladi)
+            let hashURL = decodeURIComponent(window.location.hash.substring(1));
+            
+            if (hashURL) {
+                // O'qib olingan matnni to'g'ridan-to'g'ri ekranga chiqaramiz (Bu "Sink" deb ataladi)
+                // DIQQAT: innerHTML teglar va skriptlarni ishga tushirib yuboradi!
+                document.getElementById("natija").innerHTML = "Siz tanlagan til: <b>" + hashURL + "</b>";
+            }
+        }
+    </script>
+</body>
+</html>
