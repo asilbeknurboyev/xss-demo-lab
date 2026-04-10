@@ -7,8 +7,11 @@ def index(request):
 
 # 2. REFLECTED XSS (Qidiruv tizimidagi zaiflik)
 def reflected_view(request):
-    kiritilgan_matn = request.GET.get('qidiruv', '')
-    return render(request, 'reflected.html', {'matn': kiritilgan_matn})
+    # 'q' nomli inputdan kelgan ma'lumotni ushlab olamiz
+    qidiruv_sozi = request.GET.get('q') 
+    
+    # HTML dagi 'query' degan o'zgaruvchiga shu ma'lumotni berib yuboramiz
+    return render(request, 'reflected.html', {'query': qidiruv_sozi})
 
 # 3. STORED XSS (Ma'lumotlar bazasidagi zaiflik)
 def lab_view(request):
